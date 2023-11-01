@@ -29,12 +29,16 @@ class StartTournamentActivity : AppCompatActivity() {
     private lateinit var dataHandler: DataHandler
 
     private var playerNames = mutableListOf<String>() // playerNames를 MutableList로 선언
+    lateinit var tableName: String
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         // tableName, 해당하는 image, text 값 불러오기
-        val tableName: String? = intent?.extras?.getString("tableName")
+        tableName = intent?.getStringExtra("tableName") ?: ""
+
         if (tableName == null) {        // if tableName 전송 오류 -> finish();
             Toast.makeText(this, "Table Name is NULL", Toast.LENGTH_SHORT).show()
             finish()
@@ -165,6 +169,7 @@ class StartTournamentActivity : AppCompatActivity() {
                 "pairNode",
                 pairNode
         ) // StartTournamentActivity -> SelectNodeActivity로 pariNode객체를 넘겨준다.
+        intent.putExtra("tableName", tableName)
         Log.d("MP_proj", "Successfully put parcelableExtra into Intent")
 
         selectNodeActivityResultLauncher.launch(intent)
@@ -245,6 +250,7 @@ class StartTournamentActivity : AppCompatActivity() {
                 "TreeNode",
                 testTournament.root
         ) // StartTournamentActivity -> SelectNodeActivity로 pariNode객체를 넘겨준다.
+        intent.putExtra("tableName", tableName);
         Log.d("MP_proj", "Final Successfully put parcelableExtra into Intent")
 
         try {
